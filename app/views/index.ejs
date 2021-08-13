@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AfterGlovo</title>
+    <meta charset = "utf-8" />
+</head>
+<body>
+    <form name = "location" onsubmit="httpGet('newOrder');return false">
+        <label>from: </label>
+        <input id = "fromId" fromAdress = "fromAdress" value = "Vatslava Havela Boulevard 6, Kiev, Kyiv city" style='width:300px'/>
+        <br><br>
+        <label>to: </label>
+        <input id = "toId" toAdress = "toAdress" value = "Velyka Vasylkivska Street 22, Kiev, Kyiv city" style='width:300px'/>
+        <br><br>
+        <input type = "submit" value = "Send" />
+        <br><br><br>
+        <label id = "info"></label>
+    </form>
+	
+	<script>
+	function httpGet(theUrl)
+        {
+            var data = {
+                from: document.getElementById("fromId").value,
+                to: document.getElementById("toId").value
+            }
+
+            var jsonData = {
+                "scheduleTime": null,
+                "description": "A 30cm by 30cm box",
+                "reference": {
+                    "id": "your internal reference"
+                },
+                "addresses": [
+                    {
+                    "type": "PICKUP",
+                    "lat": 50.447422,
+                    "lon": 30.421321,
+                    "label": "Calle la X, 29",
+                    "details": "2nd Floor",
+                    "contactPhone": "+34622334455",
+                    "contactPerson": "Sam Romero",
+                    "instructions": "Use the stairs to access this address"
+                    },
+                    {
+                    "type": "DELIVERY",
+                    "lat": 50.439747,
+                    "lon": 30.516735,
+                    "label": "Calle la X, 30",
+                    "details": "Blue button of the intercom",
+                    "contactPhone": "+34622334455",
+                    "contactPerson": "Alex Smith",
+                    "instructions": "If recipient is unavailable leave next door"
+                    }
+                ]
+                }
+
+            var xmlHttp = new XMLHttpRequest();
+            xmlHttp.open("POST", theUrl, true);
+            xmlHttp.setRequestHeader('Content-Type', 'application/json');
+            xmlHttp.send(JSON.stringify(jsonData));
+            console.log("sended: \n" + data.from + " \n " + data.to)
+            setTimeout( () => {
+                console.log( xmlHttp.responseText );
+                document.getElementById("info").textContent = xmlHttp.responseText
+            }, 2000);  // "kostul" no promisses
+            return xmlHttp.responseText;
+        }
+	</script>
+</body>
+</html>

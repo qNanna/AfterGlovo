@@ -1,4 +1,6 @@
 import fetch from "node-fetch";
+import dotenv from "dotenv";
+dotenv.config();
 
 class OrderService {
   constructor (data) {
@@ -12,7 +14,7 @@ class OrderService {
         body: JSON.stringify(data),
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic MTU5NDAyMTA1MDk2MzcyOjdjNDk3NWYyMDQ2OTQ1OWFiMDQ0ZGNmOTE0ZGFkMmE0"
+          Authorization: process.env.GLOVO_API_AUTH_KEY
         }
       });
       return request.json();

@@ -1,8 +1,6 @@
 import chalk from 'chalk'
 import fetch from 'node-fetch'
 
-import { asyncRedisClient } from '../index.js'
-
 class GlovoService {
   constructor (data) {
     this.data = data
@@ -13,7 +11,10 @@ class GlovoService {
       const request = await fetch(url, {
         method,
         body: JSON.stringify(data),
-        headers: JSON.parse(await asyncRedisClient.get('headers'))
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: process.env.GLOVO_API_AUTH_KEY
+        }
       })
       return request.json()
     } catch (err) {

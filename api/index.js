@@ -5,17 +5,16 @@ import asyncRedis from 'async-redis'
 import dotenv from 'dotenv'
 
 import orderRouter from './routers/orderRouter.js'
-import db from './db.js'
+import db from '../dataBase/db.js'
 
 dotenv.config()
 const api = express.Router()
-const redisClient = redis.createClient()
-const asyncRedisClient = asyncRedis.decorate(redisClient)
+const asyncRedisClient = asyncRedis.decorate(redis.createClient())
 // eslint-disable-next-line new-cap
 const knex = new db(process.env.SQLITE_PATH).get()
 
 asyncRedisClient.on('connect', () => {
-  console.info(chalk.blue('Redis client connected', redisClient.address))
+  console.info(chalk.blue('Redis client connected on', redis.createClient().address))
   asyncRedisClient.set('headers', JSON.stringify({
     'Content-Type': 'application/json',
     Authorization: process.env.GLOVO_API_AUTH_KEY

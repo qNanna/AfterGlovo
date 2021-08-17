@@ -1,7 +1,7 @@
 By default, **npm install** will install all modules listed as dependencies in package.json.
 
 Operation | Method | Url
------------- | -------------
+------------ | ------------ | -------------
 One way order | POST | 127.0.0.1:3051/api/v1/orders/oneWayOrder
 Estimate order | POST | 127.0.0.1:3051/api/v1/orders/estimateOrder
 

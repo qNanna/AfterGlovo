@@ -3,6 +3,7 @@ By default, **npm install** will install all modules listed as dependencies in p
 Method | Url
 ------------ | -------------
 POST | 127.0.0.1:3051/api/v1/orders/estimateOrder
+POST | 127.0.0.1:3051/api/v1/orders/oneWayOrder
 
 ### Data to send:
 ```

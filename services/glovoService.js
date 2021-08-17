@@ -21,11 +21,6 @@ class GlovoService {
       console.error(chalk.red(err))
     }
   }
-
-  async getDiscont (amount) {
-    const total = amount / 100 * 20 // 20 is pecent %
-    return amount - total
-  }
 }
 
 export default new GlovoService()

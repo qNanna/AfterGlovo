@@ -1,4 +1,4 @@
-By default, *npm install* will install all modules listed as dependencies in package.json.
+By default, **npm install** will install all modules listed as dependencies in package.json.
 
 Method | Url
 ------------ | -------------

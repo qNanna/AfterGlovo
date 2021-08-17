@@ -26,4 +26,4 @@ Estimate order | POST | 127.0.0.1:3051/api/v1/orders/estimateOrder
   ]
 }
 ```
->[link to GlovoAPI](http://google.com)
+>[link to GlovoAPI](https://api-docs.glovoapp.com/b2b/index.html#getting-started)

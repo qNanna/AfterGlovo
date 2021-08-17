@@ -12,7 +12,7 @@ class OrderController {
   }
 
   async estimateOrder (req, res) {
-    const request = await glovoService.glovoApiSend(`${process.env.GLOVO_API_DOMAIN}b2b/orders/estimate`, req.method, req.body)
+    const request = await glovoService.estimateOrder(`${process.env.GLOVO_API_DOMAIN}b2b/orders/estimate`, req.method, req.body)
     const result = await orderService.getDiscont(request)
     res.json({ result })
   }

@@ -6,7 +6,7 @@ class GlovoService {
     this.data = data
   } // not used yet
 
-  async glovoApiSend (url, method, data) {
+  async estimateOrder (url, method, data) {
     try {
       const request = await fetch(url, {
         method,

@@ -1,4 +1,6 @@
-
+```
+By default, npm install will install all modules listed as dependencies in package.json.
+```
 Method | Url
 ------------ | -------------
 POST | 127.0.0.1:3051/api/v1/orders/estimateOrder

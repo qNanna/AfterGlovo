@@ -1,4 +1,7 @@
+import uniqid from 'uniqid'
+
 import orderService from '../services/orderService.js'
+import dbController from './dbController.js'
 
 class OrderController {
   constructor (data) {
@@ -17,8 +20,10 @@ class OrderController {
 
   async estimateOrder (req, res) {
     const result = await orderService.glovoApiSend(`${process.env.GLOVO_API_DOMAIN}b2b/orders/estimate`, req.method, req.body)
-    result.total.discount = { discount: '20%', amount: orderService.getDiscont(result.total.amount) }
-    console.log(result)
+    result.total.discount = { discount: '20%', amount: await orderService.getDiscont(result.total.amount), discountId: uniqid() }
+    await dbController.createTable()
+    // const dbquery = await dbController.insertToTable(result)
+    // console.log(result, ' --> '/*, dbquery*/)
     res.json({ result })
   }
 }

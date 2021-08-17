@@ -1,6 +1,9 @@
+import chalk from 'chalk'
 import fetch from 'node-fetch'
 
-class OrderService {
+import { asyncRedisClient } from '../index.js'
+
+class GlovoService {
   constructor (data) {
     this.data = data
   } // not used yet
@@ -10,21 +13,18 @@ class OrderService {
       const request = await fetch(url, {
         method,
         body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: process.env.GLOVO_API_AUTH_KEY
-        }
+        headers: JSON.parse(await asyncRedisClient.get('headers'))
       })
       return request.json()
     } catch (err) {
-      console.error(err)
+      console.error(chalk.red(err))
     }
   }
 
-  getDiscont (amount) {
-    const total = (amount / 100) * 20 // 20 is pecent %
+  async getDiscont (amount) {
+    const total = amount / 100 * 20 // 20 is pecent %
     return amount - total
   }
 }
 
-export default new OrderService()
+export default new GlovoService()

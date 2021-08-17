@@ -2,11 +2,11 @@
 import express from 'express'
 
 import orderRouter from './routers/orderRouter.js'
-import { RedisClient, DataBaseOperations } from '../config/index.js'
+import { RedisClient, DataBase } from '../config/index.js'
 
 const api = express.Router()
-const knex = new DataBaseOperations().get()
-const redisClient = new RedisClient().init()
+const knex = new DataBase().get()
+const redisClient = new RedisClient().get()
 
 api.use('/v1/orders', orderRouter)
 

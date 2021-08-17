@@ -1,5 +1,6 @@
 import glovoService from '../../services/glovoService.js'
 import orderService from '../../services/orderService.js'
+import redisService from '../../services/redisService.js'
 
 class OrderController {
   constructor (data) {
@@ -14,6 +15,7 @@ class OrderController {
   async estimateOrder (req, res) {
     const request = await glovoService.estimateOrder(`${process.env.GLOVO_API_DOMAIN}b2b/orders/estimate`, req.method, req.body)
     const result = await orderService.getDiscont(request)
+    await redisService.setEx(result.total.discount.discountId, 300, result)
     res.json({ result })
   }
 }

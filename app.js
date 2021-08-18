@@ -1,7 +1,7 @@
 import chalk from 'chalk'
 import express from 'express'
 
-import { api } from './api/index.js'
+import api from './api/index.js'
 
 const app = express()
 

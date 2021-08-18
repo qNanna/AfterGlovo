@@ -105,7 +105,7 @@ class DataBaseOperations extends DataBase {
   }
 }
 
-const knexClient = new DataBaseOperations().get()
+const knexClient = new DataBaseOperations()
 const redisClient = new RedisOperations()
 
 export { knexClient, redisClient, env }

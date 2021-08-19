@@ -17,12 +17,14 @@ class OrderController {
   }
 
   async estimate (req, res) {
-    const location = await locationService.getLocation(config.locationLqAPIUrl, req.body)
-    const discount = await glovoService.estimateOrder(location)
-    const key = crypto.createHash('sha256').update(req.body.toString()).digest('base64')
-    const result = await redis.get(key)
-    if (!result) { await redis.setEx(key, 10, req.body); console.log('DONT HAVE') } else console.log('HAVE')
-    res.json({ discount })
+    const key = crypto.createHash('sha256').update(JSON.stringify(req.body)).digest('base64')
+    let data = await redis.get(key)
+    if (!data) {
+      const location = await locationService.getLocation(req.body)
+      data = await glovoService.estimateOrder(location)
+      await redis.setEx(key, config.redisDataLifeTime, data)
+    }
+    res.json({ data })
   }
 }
 

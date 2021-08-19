@@ -2,15 +2,20 @@ import chalk from 'chalk'
 import fetch from 'node-fetch'
 import config from '../config/index.js'
 
+const routes = {
+  estimate: `${config.glovoAPIDomain}b2b/orders/estimate`,
+  oneWay: `${config.glovoAPIDomain}b2b/orders`
+}
+
 class GlovoService {
   constructor (data) {
     this.data = data
   } // not used yet
 
+  // TODO: build request body to GlovoAPI
   async estimateOrder (data) {
     try {
-      const url = `${config.glovoAPIDomain}b2b/orders/estimate`
-      const request = await fetch(url, {
+      const request = await fetch(routes.estimate, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -18,12 +23,17 @@ class GlovoService {
           Authorization: config.glovoAPIKey
         }
       })
-      const result = await request.json()
-      result.total.amount -= result.total.amount / 100 * config.discount
+
+      const result = await this.getDiscount(await request.json())
       return result
     } catch (err) {
       console.error(chalk.red(err))
     }
+  }
+
+  async getDiscount (data) {
+    data.total.amount -= data.total.amount / 100 * config.discount
+    return data
   }
 }
 

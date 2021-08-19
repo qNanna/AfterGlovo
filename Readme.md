@@ -13,5 +13,6 @@ Get Dependencies | GET | 127.0.0.1:3051/api/dependencies/getDependencies
    to: ”Velyka Vasylkivska Street 22, Kiev, Kyiv city”
 }
 ```
->[link to GlovoAPI](https://api-docs.glovoapp.com/b2b/index.html#getting-started)
->[link to LocationLQAPI](https://locationiq.com/docs)
+>[GlovoAPI](https://api-docs.glovoapp.com/b2b/index.html#getting-started)
+
+>[LocationLQAPI](https://locationiq.com/docs)

@@ -13,17 +13,21 @@ Estimate order | POST | 127.0.0.1:3051/api/v1/orders/estimateOrder
   "addresses": [
     {
       "type": "PICKUP",
-      "lat": 50.447422,
-      "lon": 30.421321,
+      "lat": 1,
+      "lon": 1,
       "label": "Calle la X, 29"
     },
     {
       "type": "DELIVERY",
-      "lat": 50.439747,
-      "lon": 30.516735,
+      "lat": 1,
+      "lon": 1,
       "label": "Calle la X, 30"
     }
-  ]
+  ],
+  "address": {
+    "from": "Vatslava Havela Boulevard 6, Kiev, Kyiv city",
+    "to": "Velyka Vasylkivska Street 22, Kiev, Kyiv city"
+  }
 }
 ```
 >[link to GlovoAPI](https://api-docs.glovoapp.com/b2b/index.html#getting-started)

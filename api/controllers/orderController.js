@@ -1,23 +1,28 @@
+// import chalk from 'chalk'
+import crypto from 'crypto'
+
+import redis from '../../redis/index.js'
+import config from '../../config/index.js'
 import glovoService from '../../services/glovoService.js'
-import orderService from '../../services/orderService.js'
-import { redisClient as redis, env } from '../../config/index.js'
+import locationService from '../../services/locationLqService.js'
 
 class OrderController {
   constructor (data) {
     this.data = data
   } // not used yet
 
-  async oneWayOrder (req, res) {
-    const result = await glovoService.glovoApiSend(`${env.GLOVO_API_DOMAIN}b2b/orders`, req.method, req.body)
+  async oneWay (req, res) {
+    const result = await glovoService.oneWay(req.body, req.method)
     res.json({ result })
   }
 
-  async estimateOrder (req, res) {
-    const request = await glovoService.estimateOrder(`${env.GLOVO_API_DOMAIN}b2b/orders/estimate`, req.method, req.body)
-    const result = await orderService.getDiscont(request)
-    await redis.setEx(result.total.discount.discountId, 300, result)
-    // console.log(await redis.get(result.total.discount.discountId))
-    res.json({ result })
+  async estimate (req, res) {
+    const location = await locationService.getLocation(config.locationLqAPIUrl, req.body)
+    const discount = await glovoService.estimateOrder(location)
+    const key = crypto.createHash('sha256').update(req.body.toString()).digest('base64')
+    const result = await redis.get(key)
+    if (!result) { await redis.setEx(key, 10, req.body); console.log('DONT HAVE') } else console.log('HAVE')
+    res.json({ discount })
   }
 }
 

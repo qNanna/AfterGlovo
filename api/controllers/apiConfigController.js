@@ -6,7 +6,7 @@ class ApiConfigController {
   } // not used yet
 
   async getDependencies (req, res) {
-    res.json(JSON.parse(fs.readFileSync('./package.json')))
+    res.json(JSON.parse(fs.readFileSync('./package.json')).dependencies)
   }
 }
 

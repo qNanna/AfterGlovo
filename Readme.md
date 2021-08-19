@@ -6,7 +6,8 @@ One way order | POST | 127.0.0.1:3051/api/v1/orders/oneWayOrder
 Estimate order | POST | 127.0.0.1:3051/api/v1/orders/estimateOrder
 Get Dependencies | GET | 127.0.0.1:3051/api/dependencies/getDependencies
 
-### Data to send for estimate order:
+### Example data to send for estimate order:
+
 ```
 {
    from: “Vatslava Havela Boulevard 6, Kiev, Kyiv city”,

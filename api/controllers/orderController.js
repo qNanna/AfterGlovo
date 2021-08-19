@@ -12,8 +12,8 @@ class OrderController {
   } // not used yet
 
   async oneWay (req, res) {
-    const result = await glovoService.oneWay(req.body, req.method)
-    res.json({ result })
+    // const result = await glovoService.oneWay(req.body, req.method)
+    res.json({ result: 'not yet' })
   }
 
   async estimate (req, res) {

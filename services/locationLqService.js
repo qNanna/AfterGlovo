@@ -9,13 +9,8 @@ class LocationLqService {
 
   async getLocation (data) {
     try {
-      const result = await Object.values(data).map(async (el, index) => {
-        const request = await this.sendRequest(await el)
-        el = { lat: request.lat, lon: request.lon }
-        return el
-      })
-
-      return this.buildData(await Promise.all(result))
+      const result = await this.sendRequest(data)
+      return result
     } catch (err) {
       console.error(chalk.red(err))
     }
@@ -24,28 +19,7 @@ class LocationLqService {
   async sendRequest (el) {
     const newUrl = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el)
     const data = await fetch(newUrl)
-    const result = (await data.json())[0] // [0] because api return all establishments of this address, take first
-    return result
-  }
-
-  async buildData (data, description = 'A 30cm by 30cm box', label = 'Empty') {
-    const obj = {
-      scheduleTime: null,
-      description,
-      addresses: [
-        { type: 'PICKUP', lat: '', lon: '', label },
-        { type: 'DELIVERY', lat: '', lon: '', label }
-      ]
-    }
-
-    const result = await Object.values(obj.addresses).map(async (el, index) => {
-      el.lat = data[index].lat
-      el.lon = data[index].lon
-      return el
-    })
-
-    obj.addresses = await Promise.all(result)
-    return obj
+    return (await data.json())[0] // [0] because api return all establishments of this address, take first
   }
 }
 

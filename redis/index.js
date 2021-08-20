@@ -41,7 +41,11 @@ class RedisClient {
 
   async get (key) {
     const result = await this.redis.get(key)
-    return JSON.parse(result)
+    try {
+      return JSON.parse(result)
+    } catch {
+      return undefined
+    }
   }
 }
 

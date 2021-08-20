@@ -1,8 +1,8 @@
-import config from './config'
+import config from './config/index.js'
 import chalk from 'chalk'
 import express from 'express'
 
-import api from './api'
+import api from './api/index.js'
 
 const app = express()
 
@@ -11,6 +11,4 @@ app.use(express.json())
 
 app.use('/api', api)
 
-const HOST = config.host
-const PORT = config.port
-app.listen(PORT, HOST, () => console.info(chalk.green(`Server has started on ${HOST}:${PORT}`)))
+app.listen(config.port, config.host, () => console.info(chalk.green(`Server has started on ${config.host}:${config.port}`)))

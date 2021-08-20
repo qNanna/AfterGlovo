@@ -2,7 +2,7 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-const configData = {
+export default {
   host: process.env.HOST || '127.0.0.1',
   port: process.env.PORT || 3051,
   sqlitePath: process.env.SQLITE_PATH || './api/sqlite.db',
@@ -13,5 +13,3 @@ const configData = {
   glovoAPIDomain: process.env.API_URL || 'https://api.glovoapp.com/',
   glovoAPIKey: process.env.API_KEY || 'Basic MTU5NDAyMTA1MDk2MzcyOjdjNDk3NWYyMDQ2OTQ1OWFiMDQ0ZGNmOTE0ZGFkMmE0'
 }
-
-export default configData

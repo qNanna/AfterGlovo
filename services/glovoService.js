@@ -12,9 +12,9 @@ class GlovoService {
     this.data = data
   } // not used yet
 
-  // TODO: build request body to GlovoAPI
-  async estimateOrder (data) {
+  async estimateOrder (from, to) {
     try {
+      const data = this.buildData(from, to)
       const request = await fetch(routes.estimate, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -23,17 +23,27 @@ class GlovoService {
           Authorization: config.glovoAPIKey
         }
       })
-
-      const result = await this.getDiscount(await request.json())
-      return result
+      return await request.json()
     } catch (err) {
       console.error(chalk.red(err))
     }
   }
 
-  async getDiscount (data) {
+  getDiscount (data) {
     data.total.amount -= data.total.amount / 100 * config.discount
     return data
+  }
+
+  buildData (from, to, description = 'A 30cm by 30cm box', label = 'Empty') {
+    const obj = {
+      scheduleTime: null,
+      description,
+      addresses: [
+        { type: 'PICKUP', lat: from.lat, lon: from.lon, label },
+        { type: 'DELIVERY', lat: to.lat, lon: to.lon, label }
+      ]
+    }
+    return obj
   }
 }
 

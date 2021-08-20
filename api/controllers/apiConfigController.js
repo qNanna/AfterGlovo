@@ -6,7 +6,11 @@ class ApiConfigController {
   } // not used yet
 
   async getDependencies (req, res) {
-    res.json(JSON.parse(fs.readFileSync('./package.json')).dependencies)
+    fs.readFile('./package.json', (err, data) => {
+      if (err) throw err
+      const parsedData = JSON.parse(data)
+      res.json(Object.keys(parsedData.dependencies))
+    })
   }
 }
 

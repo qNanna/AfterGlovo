@@ -1,4 +1,5 @@
-import fs from 'fs'
+import utils from '../../utils/index.js'
+import chalk from 'chalk'
 
 class ApiConfigController {
   constructor (data) {
@@ -6,11 +7,8 @@ class ApiConfigController {
   } // not used yet
 
   async getDependencies (req, res) {
-    fs.readFile('./package.json', (err, data) => {
-      if (err) throw err
-      const parsedData = JSON.parse(data)
-      res.json(Object.keys(parsedData.dependencies))
-    })
+    const data = await utils.readFile('./package.json')
+    res.send(Object.keys(data.dependencies))
   }
 }
 

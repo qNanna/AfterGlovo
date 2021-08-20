@@ -13,6 +13,7 @@ async function readFile (path) {
     return null
   }
 }
+
 export default {
   getHash,
   readFile

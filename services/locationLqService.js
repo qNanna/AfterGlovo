@@ -10,7 +10,7 @@ class LocationLqService {
   async getLocation (data) {
     try {
       const result = await this.sendRequest(data)
-      return result
+      return result[0] // [0] because api return all establishments of this address, take first
     } catch (err) {
       console.error(chalk.red(err))
     }
@@ -19,7 +19,7 @@ class LocationLqService {
   async sendRequest (el) {
     const newUrl = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el)
     const data = await fetch(newUrl)
-    return (await data.json())[0] // [0] because api return all establishments of this address, take first
+    return (await data.json())
   }
 }
 

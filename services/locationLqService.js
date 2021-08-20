@@ -16,7 +16,7 @@ class LocationLqService {
   async sendRequest (el) {
     const newUrl = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el)
     const data = await fetch(newUrl)
-    return await data.json()
+    return data.json()
   }
 }
 

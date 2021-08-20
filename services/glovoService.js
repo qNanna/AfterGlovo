@@ -20,7 +20,7 @@ class GlovoService {
           Authorization: config.glovoAPIKey
         }
       })
-      return await request.json()
+      return request.json()
     } catch (err) {
       console.error(chalk.red(err))
     }

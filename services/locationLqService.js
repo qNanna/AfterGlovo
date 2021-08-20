@@ -3,10 +3,6 @@ import fetch from 'node-fetch'
 import config from '../config/index.js'
 
 class LocationLqService {
-  constructor (data) {
-    this.data = data
-  } // not used yet
-
   async getLocation (data) {
     try {
       const result = await this.sendRequest(data)

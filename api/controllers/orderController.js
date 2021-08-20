@@ -5,10 +5,6 @@ import glovoService from '../../services/glovoService.js'
 import locationService from '../../services/locationLqService.js'
 
 class OrderController {
-  constructor (data) {
-    this.data = data
-  } // not used yet
-
   async oneWay (req, res) {
     res.json({ result: 'not yet' })
   }

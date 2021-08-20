@@ -8,10 +8,6 @@ const routes = {
 }
 
 class GlovoService {
-  constructor (data) {
-    this.data = data
-  } // not used yet
-
   async estimateOrder (from, to) {
     try {
       const data = this.buildData(from, to)

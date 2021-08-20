@@ -6,8 +6,8 @@ import config from '../config/index.js'
 class LocationLqService {
   async getLocation (data) {
     try {
-      const result = await this.sendRequest(data)
-      return result[0] // [0] because api return all establishments of this address, take first
+      const [result] = await this.sendRequest(data)
+      return result
     } catch (err) {
       console.error(chalk.red(err))
     }
@@ -16,7 +16,7 @@ class LocationLqService {
   async sendRequest (el) {
     const newUrl = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el)
     const data = await fetch(newUrl)
-    return (await data.json())
+    return await data.json()
   }
 }
 

@@ -1,5 +1,4 @@
 import utils from '../../utils/index.js'
-import chalk from 'chalk'
 
 class ApiConfigController {
   constructor (data) {

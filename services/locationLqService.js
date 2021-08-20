@@ -1,5 +1,6 @@
 import chalk from 'chalk'
 import fetch from 'node-fetch'
+
 import config from '../config/index.js'
 
 class LocationLqService {

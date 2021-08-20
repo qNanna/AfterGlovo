@@ -1,7 +1,7 @@
 import express from 'express'
 
 import orderRouter from './routers/orderRouter.js'
-import configRouter from './routers/apiConfigRouter.js'
+import configRouter from './routers/serviceRouter.js'
 
 const api = express.Router()
 

@@ -15,4 +15,5 @@ module.exports = {
     'no-console': 'off',
     'no-param-reassign': 'off',
   },
+  plugins: ['sonarjs', 'no-loops', 'no-use-extend-native'],
 };

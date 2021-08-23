@@ -1,11 +1,11 @@
-import express from 'express'
+import express from 'express';
 
-import orderController from '../controllers/orderController.js'
+import orderController from '../controllers/orderController';
 
-const orderRouter = express.Router()
+const orderRouter = express.Router();
 
-orderRouter.get('/', (req, res) => orderController.home(req, res))
-orderRouter.post('/oneWay', (req, res) => orderController.oneWay(req, res))
-orderRouter.post('/estimate', (req, res) => orderController.estimate(req, res))
+orderRouter.get('/', (req, res) => orderController.home(req, res));
+orderRouter.post('/oneWay', (req, res) => orderController.oneWay(req, res));
+orderRouter.post('/estimate', (req, res) => orderController.estimate(req, res));
 
-export default orderRouter
+export default orderRouter;

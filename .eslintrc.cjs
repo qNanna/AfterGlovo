@@ -13,5 +13,6 @@ module.exports = {
   rules: {
     'no-return-await': 'warn',
     'no-console': 'off',
+    'no-param-reassign': 'off',
   },
 };

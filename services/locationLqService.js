@@ -1,23 +1,25 @@
-import chalk from 'chalk'
-import fetch from 'node-fetch'
+/* eslint-disable no-console */
+import chalk from 'chalk';
+import fetch from 'node-fetch';
 
-import config from '../config/index.js'
+import config from '../config/index';
 
 class LocationLqService {
-  async getLocation (data) {
+  async getLocation(data) {
     try {
-      const [result] = await this.sendRequest(data)
-      return result
+      const [result] = await this.sendRequest(data);
+      return result;
     } catch (err) {
-      console.error(chalk.red(err))
+      console.error(chalk.red(err));
     }
+    return null;
   }
 
-  async sendRequest (el) {
-    const newUrl = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el)
-    const data = await fetch(newUrl)
-    return data.json()
+  async sendRequest(el) {
+    this.newUrl = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el);
+    const data = await fetch(this.newUrl);
+    return data.json();
   }
 }
 
-export default new LocationLqService()
+export default new LocationLqService();

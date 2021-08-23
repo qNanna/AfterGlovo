@@ -12,7 +12,7 @@ class GlovoService {
   async estimateOrder(from, to) {
     try {
       const data = this.buildData(from, to);
-      const request = await fetch(routes.estimate, {
+      this.request = await fetch(routes.estimate, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
@@ -20,11 +20,10 @@ class GlovoService {
           Authorization: config.glovoAPIKey,
         },
       });
-      return request.json();
     } catch (err) {
       console.error(chalk.red(err));
     }
-    return null;
+    return this.request.json();
   }
 
   getDiscount(data) {
@@ -35,19 +34,24 @@ class GlovoService {
   }
 
   buildData(from, to, description = 'A 30cm by 30cm box', label = 'Empty') {
-    this.obj = {
-      scheduleTime: null,
-      description,
-      addresses: [
-        {
-          type: 'PICKUP', lat: from.lat, lon: from.lon, label,
-        },
-        {
-          type: 'DELIVERY', lat: to.lat, lon: to.lon, label,
-        },
-      ],
-    };
-    return this.obj;
+    try {
+      this.obj = {
+        scheduleTime: null,
+        description,
+        addresses: [
+          {
+            type: 'PICKUP', lat: from.lat, lon: from.lon, label,
+          },
+          {
+            type: 'DELIVERY', lat: to.lat, lon: to.lon, label,
+          },
+        ],
+      };
+      return this.obj;
+    } catch (err) {
+      console.error(chalk.red(err));
+      return null;
+    }
   }
 }
 

@@ -28,7 +28,7 @@ class OrderController {
       if (order && !order.error) {
         data = await glovoService.getDiscount(order);
         await redis.setEx(this.key, config.redisDataLifeTime, data);
-      } else data = order || 'Something wrong';
+      } else data = order;
     }
     res.json({ data });
   }

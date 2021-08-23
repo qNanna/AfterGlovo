@@ -16,7 +16,6 @@ class OrderController {
       const locationArr = Object.entries(req.body).map(async ([key, el]) => {
         if (key === 'from' || key === 'to') {
           const locations = await locationService.getLocation(el);
-          // eslint-disable-next-line no-param-reassign
           el = { lat: locations.lat, lon: locations.lon };
         }
         return [key, el];

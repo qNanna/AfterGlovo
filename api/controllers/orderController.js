@@ -24,7 +24,7 @@ class OrderController {
       });
 
       const locations = Object.fromEntries(await Promise.all(locationArr));
-      const order = await glovoService.estimateOrder(locations.from, locations.to);
+      const order = await glovoService.estimateOrder(locations);
       if (order && !order.error) {
         data = await glovoService.getDiscount(order);
         await redis.setEx(this.key, config.redisDataLifeTime, data);

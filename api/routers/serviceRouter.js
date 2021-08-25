@@ -1,12 +1,10 @@
 import express from 'express';
 
-import utils from '../../utils/index';
+import serviceController from '../controllers/serviceController';
 
 const apiConfigRouter = express.Router();
 
-apiConfigRouter.get('/getDependencies', (req, res) => {
-  const data = utils.readFile('./package.json');
-  res.send(Object.keys(data.dependencies));
-});
+apiConfigRouter.get('/dependencies', (req, res) => serviceController.getDependencies(req, res));
+apiConfigRouter.get('/healthcheck', (req, res) => serviceController.getUptime(req, res));
 
 export default apiConfigRouter;

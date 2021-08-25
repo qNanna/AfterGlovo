@@ -14,21 +14,17 @@ class OrderController {
     let data = await redis.get(this.key);
 
     if (!data) {
-      const locationArr = Object.entries(req.body).map(async ([key, el]) => {
-        if (key === 'from' || key === 'to') {
-          const location = await locationService.getLocation(el);
-          if (!location) return {};
-          el = { lat: location.lat, lon: location.lon };
-        }
-        return [key, el];
-      });
+      const { from, to } = req.body;
+      const locationFrom = await locationService.getLocation(from);
+      const locationTo = await locationService.getLocation(to);
+      const order = await glovoService.estimateOrder(locationFrom, locationTo);
 
-      const locations = Object.fromEntries(await Promise.all(locationArr));
-      const order = await glovoService.estimateOrder(locations);
       if (order && !order.error) {
         data = await glovoService.getDiscount(order);
         await redis.setEx(this.key, config.redisDataLifeTime, data);
-      } else data = order;
+      } else {
+        data = order;
+      }
     }
     res.json({ data });
   }

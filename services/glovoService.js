@@ -9,7 +9,7 @@ const routes = {
 };
 
 class GlovoService {
-  async estimateOrder({ from, to }) {
+  async estimateOrder(from, to) {
     try {
       const data = this.buildData(from, to);
       this.request = await fetch(routes.estimate, {

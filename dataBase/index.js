@@ -28,23 +28,34 @@ class DataBase {
     return this.knex;
   }
 
-  async createTable(data, name = 'orders') {
+  async createTable() {
     try {
       await this.knex.schema
-        .createTable(name, (table) => {
+        .createTable('users', (table) => {
           table.increments('id');
-          table.string('order');
+          table.string('Firstname');
+          table.string('Lastname');
+          table.string('Email');
         });
     } catch (err) {
       console.error(chalk.red(err));
     }
   }
 
-  async insertToTable(data, to = 'orders') {
+  async insertToTable(data = 'empty', to = 'unknown') {
     try {
-      console.log(data);
-      const insertedRows = await this.knex(to).insert({ order: data });
+      const insertedRows = await this.knex(to).insert(data);
       return insertedRows;
+    } catch (err) {
+      console.error(chalk.red(err));
+    }
+    return null;
+  }
+
+  async find(email, tableName) {
+    try {
+      const result = await this.knex(tableName).select('*').where('Email', email);
+      return result;
     } catch (err) {
       console.error(chalk.red(err));
     }

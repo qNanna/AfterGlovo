@@ -1,6 +1,10 @@
-import dotenv from 'dotenv';
+import dotenv from 'dotenv-safe';
 
-dotenv.config();
+dotenv.config({
+  allowEmptyValues: false,
+  path: './.env',
+  example: './.env.example',
+});
 
 export default {
   host: process.env.HOST || '127.0.0.1',

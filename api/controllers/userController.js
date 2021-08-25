@@ -7,11 +7,11 @@ class UserController {
 
     if (!this.user) {
       this.user = 'Something wrong. Please try later.';
-    } else if (this.user.length > 0) {
-      this.user = `User with email: ${Email} already exists`;
-    } else {
+    } else if (!this.user.length) {
       await knex.insertToTable({ Firstname, Lastname, Email }, 'users');
       this.user = 'Registration successful';
+    } else {
+      this.user = `User with email: ${Email} already exists`;
     }
 
     res.send(this.user);

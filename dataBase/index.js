@@ -52,14 +52,14 @@ class DataBase {
     return null;
   }
 
-  async find(email, tableName) {
+  async find(prop, value, tableName) {
     try {
-      const result = await this.knex(tableName).select('*').where('Email', email);
+      const result = await this.knex(tableName).select('*').where(prop, value);
       return result;
     } catch (err) {
       console.error(chalk.red(err));
+      return undefined;
     }
-    return null;
   }
 }
 

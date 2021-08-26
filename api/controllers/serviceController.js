@@ -1,22 +1,23 @@
 import utils from '../../utils/index';
 
 class ServiceController {
-  getDependencies(req, res) {
-    if (!this.dependencies) this.dependencies = utils.readFile('./package.json');
-    res.send(Object.keys(this.dependencies));
+  // TODO: rename param, return devdeps/deps
+  async getDependencies(req, res) {
+    if (!this.dependencies) this.dependencies = await utils.readFile('./package.json');
+    res.send(Object.keys(this.dependencies.dependencies));
   }
 
   getUptime(req, res) {
-    this.healthcheck = {
+    const healthcheck = {
       uptime: process.uptime(),
       message: 'OK',
       timestamp: new Date().toLocaleString(),
     };
 
     try {
-      res.send(this.healthcheck);
+      res.send(healthcheck);
     } catch (e) {
-      this.healthcheck.message = e;
+      healthcheck.message = e;
       res.status(503).send();
     }
   }

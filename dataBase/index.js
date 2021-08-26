@@ -35,7 +35,9 @@ class DataBase {
           table.increments('id');
           table.string('Firstname');
           table.string('Lastname');
+          table.integer('Age');
           table.string('Email');
+          table.string('Password');
         });
     } catch (err) {
       console.error(chalk.red(err));
@@ -52,13 +54,13 @@ class DataBase {
     return null;
   }
 
-  async find(prop, value, tableName) {
+  async find(value, tableName, prop = 'Email', limit = -1) {
     try {
-      const result = await this.knex(tableName).select('*').where(prop, value);
+      const result = await this.knex(tableName).select('*').where(prop, value).limit(limit);
       return result;
     } catch (err) {
       console.error(chalk.red(err));
-      return undefined;
+      return null;
     }
   }
 }

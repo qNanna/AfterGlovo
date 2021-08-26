@@ -13,7 +13,7 @@ module.exports = {
   rules: {
     'no-return-await': 'warn',
     'no-console': 'off',
-    'no-param-reassign': 'off',
+    'class-methods-use-this': 'off',
   },
   plugins: ['sonarjs', 'no-loops', 'no-use-extend-native'],
 };

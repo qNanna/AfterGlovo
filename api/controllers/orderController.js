@@ -6,12 +6,12 @@ import locationService from '../../services/locationLqService';
 
 class OrderController {
   async oneWay(req, res) {
-    res.json(this.message = 'not yet');
+    res.json('not yet');
   }
 
   async estimate(req, res) {
-    this.key = utils.getHash(req.body);
-    let data = await redis.get(this.key);
+    const key = utils.getHash(req.body);
+    let data = await redis.get(key);
 
     if (!data) {
       const { from, to } = req.body;
@@ -21,7 +21,7 @@ class OrderController {
 
       if (order && !order.error) {
         data = await glovoService.getDiscount(order);
-        await redis.setEx(this.key, config.redisDataLifeTime, data);
+        await redis.setEx(key, config.redisDataLifeTime, data);
       } else {
         data = order;
       }

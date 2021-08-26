@@ -16,4 +16,7 @@ export default {
   locationLqAPIKey: process.env.LOCATIONLQ_API_KEY || 'pk.159a6a2e31219ffa77b5562a34bc3b5c',
   glovoAPIDomain: process.env.API_URL || 'https://api.glovoapp.com/',
   glovoAPIKey: process.env.API_KEY || 'Basic MTU5NDAyMTA1MDk2MzcyOjdjNDk3NWYyMDQ2OTQ1OWFiMDQ0ZGNmOTE0ZGFkMmE0',
+  // eslint-disable-next-line no-useless-escape
+  emailReg: process.env.EMAIL_REG || /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,
+  cryptoSecretKey: process.env.CRYPTO_SECRET_KEY || 'Anaconda51',
 };

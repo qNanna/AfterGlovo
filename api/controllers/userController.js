@@ -1,20 +1,29 @@
-import knex from '../../dataBase/index';
+import utils from '../../utils/index';
+import config from '../../config';
+import dbService from '../../services/dbService';
 
 class UserController {
   async createUser(req, res) {
-    const { Firstname, Lastname, Email } = req.query;
-    this.user = await knex.find('Email', Email, 'users');
+    const {
+      firstName, lastName, email, age, password,
+    } = req.body;
 
-    if (!this.user) {
-      this.user = 'Something wrong. Please try later.';
-    } else if (!this.user.length) {
-      await knex.insertToTable({ Firstname, Lastname, Email }, 'users');
-      this.user = 'Registration successful';
-    } else {
-      this.user = `User with email: ${Email} already exists`;
+    const userPassword = await utils.encryptData(password, config.cryptoSecretKey);
+
+    const userEmail = email.toLowerCase();
+    if (!utils.isEmail(userEmail)) {
+      res.status(400).send('Invalid email');
+      return;
     }
 
-    res.send(this.user);
+    const result = await dbService.find(userEmail, 'users');
+    if (result.length) {
+      res.status(400).send(`User with email: ${email} already exists`);
+      return;
+    }
+
+    const id = await dbService.insert(firstName, lastName, userEmail, age, userPassword);
+    res.send(id);
   }
 }
 

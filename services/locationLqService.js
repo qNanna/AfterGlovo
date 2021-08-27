@@ -1,22 +1,16 @@
-import chalk from 'chalk';
 import fetch from 'node-fetch';
 
 import config from '../config/index';
 
 class LocationLqService {
   async getLocation(data) {
-    try {
-      const [result] = await this.sendRequest(data);
-      return result;
-    } catch (err) {
-      console.error(chalk.red(err));
-    }
-    return null;
+    const [result] = await this.sendRequest(data);
+    return result;
   }
 
   async sendRequest(el) {
-    this.newUrl = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el);
-    const data = await fetch(this.newUrl);
+    const url = config.locationLqAPIUrl.replace('*KEY', config.locationLqAPIKey).replace('*ADRESS', el);
+    const data = await fetch(url);
     return data.json();
   }
 }

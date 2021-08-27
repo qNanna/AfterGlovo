@@ -1,24 +1,26 @@
 import crypto from 'crypto';
 import fs from 'fs/promises';
 
-const iv = crypto.randomBytes(16);
-
 function getHash(data, encoding = 'base64', encryption = 'sha256') {
   return crypto.createHash(encryption).update(JSON.stringify(data)).digest(encoding);
 }
 
 function encryptData(data, key) {
-  const cipher = crypto.createCipher('aes-128-ctr', key, iv);
-  let encryptedData = cipher.update(data, 'utf-8', 'hex');
-  encryptedData += cipher.final('hex');
-  return encryptedData;
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(key), iv);
+  let encrypted = cipher.update(data);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return `${iv.toString('hex')}:${encrypted.toString('hex')}`;
 }
 
 function decryptData(data, key) {
-  const decipher = crypto.createDecipher('aes-128-ctr', key, iv);
-  let decryptedData = decipher.update(data, 'hex', 'utf-8');
-  decryptedData += decipher.final('utf8');
-  return decryptedData;
+  const textParts = data.split(':');
+  const iv = Buffer.from(textParts.shift(), 'hex');
+  const encryptedText = Buffer.from(textParts.join(':'), 'hex');
+  const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key), iv);
+  let decrypted = decipher.update(encryptedText);
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+  return decrypted.toString();
 }
 
 async function readFile(path) {

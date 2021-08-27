@@ -19,7 +19,6 @@ class DataBase {
     this.print();
   }
 
-  // eslint-disable-next-line class-methods-use-this
   print() {
     console.log(chalk.cyan('SqLite connected on', config.sqlitePath));
   }
@@ -29,39 +28,23 @@ class DataBase {
   }
 
   async createTable() {
-    try {
-      await this.knex.schema
-        .createTable('users', (table) => {
-          table.increments('id');
-          table.string('Firstname');
-          table.string('Lastname');
-          table.integer('Age');
-          table.string('Email');
-          table.string('Password');
-        });
-    } catch (err) {
-      console.error(chalk.red(err));
-    }
+    await this.knex.schema
+      .createTable('users', (table) => {
+        table.increments('id');
+        table.string('Firstname');
+        table.string('Lastname');
+        table.integer('Age');
+        table.string('Email');
+        table.string('Password');
+      });
   }
 
   async insertToTable(data = 'empty', to = 'unknown') {
-    try {
-      const insertedRows = await this.knex(to).insert(data);
-      return insertedRows;
-    } catch (err) {
-      console.error(chalk.red(err));
-    }
-    return null;
+    return this.knex(to).insert(data);
   }
 
   async find(value, tableName, prop = 'Email', limit = -1) {
-    try {
-      const result = await this.knex(tableName).select('*').where(prop, value).limit(limit);
-      return result;
-    } catch (err) {
-      console.error(chalk.red(err));
-      return null;
-    }
+    return this.knex(tableName).select('*').where(prop, value).limit(limit);
   }
 }
 

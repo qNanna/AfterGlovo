@@ -1,17 +1,15 @@
 import knex from '../dataBase/index';
 
 class DbService {
-  async find(email, tableName) {
-    const result = await knex.find(email, tableName);
-    return result;
+  find(email, tableName) {
+    return knex.find(email, tableName);
   }
 
-  async insert(Firstname, LastName, Email, Age, Password) {
+  insert(Firstname, LastName, Email, Age, Password) {
     const data = {
       Firstname, LastName, Email, Age, Password,
     };
-    const result = await knex.insertToTable(data, 'users');
-    return result;
+    return knex.insertToTable(data, 'users');
   }
 }
 

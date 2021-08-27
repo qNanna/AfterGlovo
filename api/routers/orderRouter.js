@@ -4,8 +4,7 @@ import orderController from '../controllers/orderController';
 
 const orderRouter = express.Router();
 
-orderRouter.get('/', (req, res) => orderController.home(req, res));
 orderRouter.post('/oneWay', (req, res) => orderController.oneWay(req, res));
-orderRouter.post('/estimate', (req, res) => orderController.estimate(req, res));
+orderRouter.post('/estimate', (req, res, next) => orderController.estimate(req, res, next));
 
 export default orderRouter;

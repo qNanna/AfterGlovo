@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import fetch from 'node-fetch';
 
 import config from '../config/index';
@@ -10,48 +9,38 @@ const routes = {
 
 class GlovoService {
   async estimateOrder(from, to) {
-    try {
-      const data = this.buildData(from, to);
-      this.request = await fetch(routes.estimate, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: config.glovoAPIKey,
-        },
-      });
-    } catch (err) {
-      console.error(chalk.red(err));
-    }
-    return this.request.json();
+    const data = this.buildData(from, to);
+    const request = await fetch(routes.estimate, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: config.glovoAPIKey,
+      },
+    });
+    return request.json();
   }
 
-  getDiscount(data) {
-    this.data = data;
-    this.discount = data.total.amount - (data.total.amount / 100) * config.discount;
-    this.data.total.amount = this.discount;
-    return this.data;
+  getDiscount(value) {
+    const data = value;
+    const discount = value.total.amount - (value.total.amount / 100) * config.discount;
+    data.total.amount = discount;
+    return data;
   }
 
   buildData(from, to, description = 'A 30cm by 30cm box', label = 'Empty') {
-    try {
-      this.obj = {
-        scheduleTime: null,
-        description,
-        addresses: [
-          {
-            type: 'PICKUP', lat: from.lat, lon: from.lon, label,
-          },
-          {
-            type: 'DELIVERY', lat: to.lat, lon: to.lon, label,
-          },
-        ],
-      };
-      return this.obj;
-    } catch (err) {
-      console.error(chalk.red(err));
-      return null;
-    }
+    return {
+      scheduleTime: null,
+      description,
+      addresses: [
+        {
+          type: 'PICKUP', lat: from.lat, lon: from.lon, label,
+        },
+        {
+          type: 'DELIVERY', lat: to.lat, lon: to.lon, label,
+        },
+      ],
+    };
   }
 }
 

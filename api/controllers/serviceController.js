@@ -1,10 +1,9 @@
 import utils from '../../utils/index';
 
 class ServiceController {
-  // TODO: rename param, return devdeps/deps
   async getDependencies(req, res) {
-    if (!this.dependencies) this.dependencies = await utils.readFile('./package.json');
-    res.send(Object.keys(this.dependencies.dependencies));
+    if (!this.proj) this.proj = await utils.readFile('./package.json');
+    res.send(Object.keys(this.proj.dependencies));
   }
 
   getUptime(req, res) {

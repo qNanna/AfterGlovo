@@ -1,54 +1,40 @@
-const fetch = require('node-fetch')
+import chalk from 'chalk';
 
-class Order {
-    async oneWayOrder(data) {
-        try {
-            let request = await fetch('https://api.glovoapp.com/b2b/orders', {
-                method: 'POST', 
-                body: JSON.stringify(data), 
-                headers: {
-                    'Content-Type': 'application/json', 
-                    'Authorization': ' Basic MTU5NDAyMTA1MDk2MzcyOjdjNDk3NWYyMDQ2OTQ1OWFiMDQ0ZGNmOTE0ZGFkMmE0'
-                }
-            })
-            return (await request).json()
+import redis from '../../redis/index';
+import config from '../../config/index';
+import utils from '../../utils/index';
+import glovoService from '../../services/glovoService';
+import locationService from '../../services/locationLqService';
+
+class OrderController {
+  async oneWay(req, res) {
+    res.json('not yet');
+  }
+
+  async estimate(req, res, next) {
+    try {
+      const key = utils.getHash(req.body);
+      let data = await redis.get(key);
+
+      if (!data) {
+        const { from, to } = req.body;
+        const locationFrom = await locationService.getLocation(from);
+        const locationTo = await locationService.getLocation(to);
+        const order = await glovoService.estimateOrder(locationFrom, locationTo);
+
+        if (order && !order.error) {
+          data = await glovoService.getDiscount(order);
+          await redis.setEx(key, config.redisDataLifeTime, data);
+        } else {
+          data = order;
         }
-        catch(err) {
-            throw err
-        }      
+      }
+      res.json({ data });
+    } catch (err) {
+      console.error(chalk.red(err));
+      next(err);
     }
+  }
 }
 
-module.exports = new Order()
-
-//-------------------------------------------------
-
-// let data = {
-//     "scheduleTime": null,
-//     "description": "A 30cm by 30cm box",
-//     "reference": {
-//       "id": "your internal reference"
-//     },
-//     "addresses": [
-//       {
-//         "type": "PICKUP",
-//         "lat": 50.447422,
-//         "lon": 30.421321, // from: “Vatslava Havela Boulevard 6, Kiev, Kyiv city”
-//         "label": "Calle la X, 29",
-//         "details": "2nd Floor",
-//         "contactPhone": "+34622334455",
-//         "contactPerson": "Sam Romero",
-//         "instructions": "Use the stairs to access this address"
-//       },
-//       {
-//         "type": "DELIVERY",
-//         "lat": 50.439747,
-//         "lon": 30.516735, // to: ”Velyka Vasylkivska Street 22, Kiev, Kyiv city”
-//         "label": "Calle la X, 30",
-//         "details": "Blue button of the intercom",
-//         "contactPhone": "+34622334455",
-//         "contactPerson": "Alex Smith",
-//         "instructions": "If recipient is unavailable leave next door"
-//       }
-//     ]
-//   }
+export default new OrderController();

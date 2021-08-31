@@ -5,7 +5,16 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node app.js"
+    "start": "node --experimental-specifier-resolution=node app.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "coverageDirectory": "<rootDir>/unitTests/coverage/"
   },
   "keywords": [],
   "author": "",
@@ -29,6 +38,7 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-sonarjs": "^0.10.0",
+    "jest": "^27.1.0",
     "nodemon": "^2.0.12"
   }
 }

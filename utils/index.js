@@ -9,7 +9,7 @@ function getHash(data, encoding = 'base64', encryption = 'sha256') {
 }
 
 function encryptData(data, key) {
-  const iv = crypto.randomBytes(16);
+  const iv = Buffer.from('12345678', 'utf16le'); // 2 bytes per char
   const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(key), iv);
   let encrypted = cipher.update(data);
   encrypted = Buffer.concat([encrypted, cipher.final()]);

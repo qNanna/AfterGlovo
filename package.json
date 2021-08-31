@@ -14,7 +14,7 @@
       "text",
       "html"
     ],
-    "coverageDirectory": "<rootDir>/unitTests/coverage/"
+    "coverageDirectory": "<rootDir>/tests/coverage/"
   },
   "keywords": [],
   "author": "",

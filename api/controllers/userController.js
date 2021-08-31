@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+
 import utils from '../../utils/index';
 import config from '../../config';
 import dbService from '../../services/dbService';
@@ -10,7 +11,7 @@ class UserController {
         firstName, lastName, email, age, password,
       } = req.body;
 
-      const userPassword = await utils.encryptData(password, config.cryptoSecretKey);
+      const userPassword = utils.encryptData(password, config.cryptoSecretKey);
       const userEmail = email.toLowerCase();
       if (!utils.isEmail(userEmail)) {
         res.status(400).send('Invalid email');

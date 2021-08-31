@@ -1,7 +1,7 @@
 import utils from '../../utils/index';
 
 class ServiceController {
-  async getDependencies(req, res) {
+  async getDevDependencies(req, res) {
     if (!this.proj) this.proj = await utils.readFile('./package.json');
     res.send(Object.keys(this.proj.dependencies));
   }

@@ -1,6 +1,9 @@
 import crypto from 'crypto';
 import fs from 'fs/promises';
 
+// eslint-disable-next-line no-useless-escape
+const EMAIL_PATTERN = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
 function getHash(data, encoding = 'base64', encryption = 'sha256') {
   return crypto.createHash(encryption).update(JSON.stringify(data)).digest(encoding);
 }
@@ -32,9 +35,8 @@ async function readFile(path) {
   }
 }
 
-// eslint-disable-next-line no-useless-escape
-async function isEmail(mail, reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/) {
-  return reg.test(mail);
+function isEmail(mail) {
+  return EMAIL_PATTERN.test(mail);
 }
 
 export default {

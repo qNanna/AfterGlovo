@@ -16,7 +16,5 @@ export default {
   locationLqAPIKey: process.env.LOCATIONLQ_API_KEY,
   glovoAPIDomain: process.env.API_URL || 'https://api.glovoapp.com/',
   glovoAPIKey: process.env.API_KEY,
-  // eslint-disable-next-line no-useless-escape
-  emailReg: process.env.EMAIL_REG || /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/,
   cryptoSecretKey: process.env.CRYPTO_SECRET_KEY,
 };

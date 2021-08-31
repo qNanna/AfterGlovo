@@ -9,7 +9,7 @@ const routes = {
 
 class GlovoService {
   async estimateOrder(from, to) {
-    const data = this.buildData(from, to);
+    const data = this.buildData({ from, to });
     const request = await fetch(routes.estimate, {
       method: 'POST',
       body: JSON.stringify(data),
@@ -28,16 +28,16 @@ class GlovoService {
     return data;
   }
 
-  buildData(from, to, description = 'A 30cm by 30cm box', label = 'Empty') {
+  buildData(data, description = 'A 30cm by 30cm box', label = 'Empty') {
     return {
       scheduleTime: null,
       description,
       addresses: [
         {
-          type: 'PICKUP', lat: from.lat, lon: from.lon, label,
+          type: 'PICKUP', lat: data.from.lat, lon: data.from.lon, label,
         },
         {
-          type: 'DELIVERY', lat: to.lat, lon: to.lon, label,
+          type: 'DELIVERY', lat: data.to.lat, lon: data.to.lon, label,
         },
       ],
     };

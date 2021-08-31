@@ -14,6 +14,8 @@ module.exports = {
     'no-return-await': 'warn',
     'no-console': 'off',
     'class-methods-use-this': 'off',
+    'max-params': 'warn',
+    camelcase: 'off',
   },
   plugins: ['sonarjs', 'no-loops', 'no-use-extend-native'],
 };

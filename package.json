@@ -14,7 +14,8 @@
     "coverageReporters": [
       "text",
       "html"
-    ]
+    ],
+    "coverageDirectory": "<rootDir>/unitTests/coverage/"
   },
   "keywords": [],
   "author": "",

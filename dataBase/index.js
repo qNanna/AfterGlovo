@@ -7,7 +7,7 @@ const db = Knex({
   connection: {
     filename: config.sqlitePath,
   },
-  useNullAsDefault: true,
+  useNullAsDefault: false,
 });
 
 export default db;

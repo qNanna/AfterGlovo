@@ -5,7 +5,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node --experimental-specifier-resolution=node app.js",
+    "start": "node --experimental-specifier-resolution node app.js",
     "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
   },
   "jest": {

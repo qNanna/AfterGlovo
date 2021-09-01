@@ -17,7 +17,6 @@ describe('Test isEmail', () => {
   });
 });
 
-// TODO: fix encryptData fn to match expected behavior
 describe('Test encryptData', () => {
   it('Should encrypt income string', () => {
     expect(utils.encryptData(SECRET, KEY)).toBe(ENCRYPTED_SECRET);

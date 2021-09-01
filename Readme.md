@@ -16,6 +16,7 @@ Get Dependencies | GET | 127.0.0.1:3051/api/dependencies/getDependencies
 ```
 >[GlovoAPI](https://api-docs.glovoapp.com/b2b/index.html#getting-started)
 
+>[LocationAPI](https://gitlab.com/evg2287/locationapi)
 >[LocationLQAPI](https://locationiq.com/docs)
 
 ![Image of dog](https://gif-export-bot.cc/BQACAgIAAxkDAAEJOw5hHlMByUbgXASTSgZeMGdOMF3nYQACnxAAAtAAAfBIXH4rhSX3z4AgBA/undefined_animated_sticker.gif)

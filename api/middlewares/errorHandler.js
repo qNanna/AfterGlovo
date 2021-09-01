@@ -4,6 +4,7 @@ function errorRoute(req, res, next) {
   next(error);
 }
 
+// eslint-disable-next-line max-params
 function errorHandler(err, req, res, next) {
   if (res.headersSent) {
     return next(err);

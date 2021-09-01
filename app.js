@@ -10,4 +10,5 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/api', api);
+
 app.listen(config.port, config.host, () => console.info(chalk.green(`Server has started on ${config.host}:${config.port}`)));

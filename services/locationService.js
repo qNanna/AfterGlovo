@@ -2,10 +2,10 @@ import fetch from 'node-fetch';
 
 import config from '../config/index';
 
-class LocationLqService {
-  async getLocation(data) {
-    const [result] = await this.sendRequest(data);
-    return result;
+class LocationService {
+  async transferLocation(data) {
+    const result = await fetch(`${config.locationApiUrl}/transfer?address=${data}`);
+    return result.json();
   }
 
   async sendRequest(el) {
@@ -15,4 +15,4 @@ class LocationLqService {
   }
 }
 
-export default new LocationLqService();
+export default new LocationService();

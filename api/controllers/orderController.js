@@ -4,7 +4,7 @@ import redis from '../../redis/index';
 import config from '../../config/index';
 import utils from '../../utils/index';
 import glovoService from '../../services/glovoService';
-import locationService from '../../services/locationLqService';
+import locationService from '../../services/locationService';
 
 class OrderController {
   async oneWay(req, res) {
@@ -18,8 +18,10 @@ class OrderController {
 
       if (!data) {
         const { from, to } = req.body;
-        const locationFrom = await locationService.getLocation(from);
-        const locationTo = await locationService.getLocation(to);
+        const [locationFrom, locationTo] = [
+          await locationService.transferLocation(from),
+          await locationService.transferLocation(to),
+        ];
         const order = await glovoService.estimateOrder(locationFrom, locationTo);
 
         if (order && !order.error) {

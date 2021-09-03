@@ -7,10 +7,6 @@ import glovoService from '../../services/glovoService';
 import locationService from '../../services/locationService';
 
 class OrderController {
-  async oneWay(req, res) {
-    res.json('not yet');
-  }
-
   async estimate(req, res, next) {
     try {
       const key = utils.getHash(req.body);
@@ -22,7 +18,7 @@ class OrderController {
           await locationService.transferLocation(from),
           await locationService.transferLocation(to),
         ];
-        const order = await glovoService.estimateOrder(locationFrom, locationTo);
+        const order = await glovoService.estimateOrder({ locationFrom, locationTo });
 
         if (order && !order.error) {
           data = await glovoService.getDiscount(order);

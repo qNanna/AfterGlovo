@@ -3,13 +3,15 @@ import config from '../config/index';
 import utils from '../utils/index';
 
 class UserService {
-  findEmail(email) {
-    return db.find(email, 'users', 'email');
+  async findEmail(data) {
+    const [result] = await db.findOne(data);
+    return result;
   }
 
-  insert(data) {
+  async insert(data) {
     const password = utils.encryptData(data.password, config.cryptoSecretKey);
-    return db.insertToTable({ ...data, password }, 'users');
+    const [insert] = await db.insertToTable({ ...data, password }, 'users');
+    return insert;
   }
 }
 

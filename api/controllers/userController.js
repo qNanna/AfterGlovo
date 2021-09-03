@@ -38,7 +38,7 @@ class UserController {
   async getUser(req, res, next) {
     try {
       if (!req.query.id) {
-        res.status(400).json('Id is requested');
+        res.status(400).json('A id is requested');
         return;
       }
       const user = await userService.findOne(req.query.id, 'id');
@@ -46,7 +46,9 @@ class UserController {
         res.status(400).json(`User with id: ${req.query.id} not found`);
         return;
       }
+
       delete user.password;
+      delete user.token;
       res.status(200).json(user);
     } catch (err) {
       console.error(chalk.red(err));

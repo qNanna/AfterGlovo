@@ -5,7 +5,7 @@ class UserRepository {
     return db(tableName).insert(data);
   }
 
-  async findOne(value, tableName = 'users', prop = 'email') {
+  async findOne(value, prop = 'email', tableName = 'users') {
     return db(tableName).select('*').where(prop, value).limit(-1);
   }
 

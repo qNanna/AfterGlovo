@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { errorRoute, errorHandler } from './middlewares/errorHandler';
-import auth from './middlewares/auth';
+import auth from './middlewares/authMiddleware';
 import orderRouter from './routers/orderRouter';
 import serviceRouter from './routers/serviceRouter';
 import userRouter from './routers/userRouter';

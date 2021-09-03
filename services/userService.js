@@ -3,8 +3,8 @@ import config from '../config/index';
 import utils from '../utils/index';
 
 class UserService {
-  async findEmail(data) {
-    const [result] = await db.findOne(data);
+  async findEmail(data, prop) {
+    const [result] = await db.findOne(data, prop);
     return result;
   }
 

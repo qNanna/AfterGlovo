@@ -8,6 +8,11 @@ class UserService {
     return result;
   }
 
+  async updateValue(id, prop, value) {
+    const result = await db.updateValue(id, prop, value);
+    return result;
+  }
+
   async insert(data) {
     const password = utils.encryptData(data.password, config.cryptoSecretKey);
     const [insert] = await db.insertToTable({ ...data, password }, 'users');

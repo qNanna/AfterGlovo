@@ -9,6 +9,10 @@ class UserRepository {
     return db(tableName).select('*').where(prop, value).limit(-1);
   }
 
+  async updateValue(id, prop, value = null) {
+    return db('users').where('id', id).update(prop, value);
+  }
+
   async find(value, tableName = 'users', prop = 'email') {
     return db(tableName).select('*').where(prop, value);
   }

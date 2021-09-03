@@ -71,6 +71,7 @@ class UserController {
 
       const result = authService.auth(user);
       const refreshToken = await authService.createRefreshToken(user);
+      await userService.updateValue(result.id, 'token', refreshToken.token);
 
       res.send({ acessToken: result.token, refreshToken });
     } catch (err) {
@@ -79,13 +80,20 @@ class UserController {
     }
   }
 
-  refreshToken(req, res, next) {
-    if (!req.body.refreshToken) {
-      res.status(403).json({ message: 'Refresh Token is required!' });
-      return;
-    }
+  async refreshToken(req, res, next) {
     try {
-      if (req.body.refreshToken < new Date().getTime()) {
+      const { token, expiryDate, userId: id } = req.body.refreshToken;
+      if (!req.body.refreshToken) {
+        res.status(403).json({ message: 'Refresh Token is required!' });
+        return;
+      }
+      const refreshToken = await userService.findOne(id, 'id');
+      if (!refreshToken || token !== refreshToken.token) {
+        res.status(403).json({ message: 'Refresh token is not in database!' });
+        return;
+      }
+      if (expiryDate < new Date().getTime()) {
+        await userService.updateValue(id, 'token');
         res.status(403).json('Refresh token was expired. Please make a new signin request');
         return;
       }

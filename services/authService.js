@@ -6,7 +6,7 @@ import config from '../config/index';
 class AuthService {
   async createRefreshToken(user) {
     const expiredAt = new Date();
-    expiredAt.setSeconds(expiredAt.getSeconds() + 3600); // 3600 -> 1h
+    expiredAt.setSeconds(expiredAt.getSeconds() + config.refreshTokenLife);
 
     const token = crypto.randomUUID();
     return { token, userId: user.id, expiryDate: expiredAt.getTime() };
@@ -17,7 +17,7 @@ class AuthService {
       { id: user.id, email: user.email },
       config.jwtTokenKey,
       {
-        expiresIn: '2h',
+        expiresIn: config.jwtTokenLife,
       },
     );
     const data = { ...user, token };

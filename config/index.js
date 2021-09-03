@@ -17,4 +17,6 @@ export default {
   glovoAPIKey: process.env.API_KEY,
   cryptoSecretKey: process.env.CRYPTO_SECRET_KEY,
   jwtTokenKey: process.env.JWT_TOKEN_KEY,
+  jwtTokenLife: process.env.JWT_TOKEN_LIFE || '2h',
+  refreshTokenLife: process.env.REFRESH_TOKEN_LIFE || 900,
 };

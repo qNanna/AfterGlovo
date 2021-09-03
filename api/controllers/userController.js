@@ -18,7 +18,7 @@ class UserController {
         return;
       }
 
-      const user = await userService.findEmail(userEmail);
+      const user = await userService.findOne(userEmail);
       if (user) {
         res.status(400).json(`User with email: ${email} already exists`);
         return;
@@ -35,22 +35,66 @@ class UserController {
     }
   }
 
+  async getUser(req, res, next) {
+    try {
+      if (!req.query.id) {
+        res.status(400).json('Id is requested');
+        return;
+      }
+      const user = await userService.findOne(req.query.id, 'id');
+      if (!user) {
+        res.status(400).json(`User with id: ${req.query.id} not found`);
+        return;
+      }
+      delete user.password;
+      res.status(200).json(user);
+    } catch (err) {
+      console.error(chalk.red(err));
+      next(err);
+    }
+  }
+
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
       if (!(email && password)) {
         res.status(400).json('All input is required');
+        return;
       }
 
       const encryptedPass = utils.encryptData(password, config.cryptoSecretKey);
-      const user = await userService.findEmail(email.toLowerCase());
+      const user = await userService.findOne(email.toLowerCase());
       if (!user || encryptedPass !== user.password) {
         res.status(400).json('Invalid credentials');
         return;
       }
 
       const result = authService.auth(user);
-      res.send(result);
+      const refreshToken = await authService.createRefreshToken(user);
+
+      res.send({ acessToken: result.token, refreshToken });
+    } catch (err) {
+      console.error(chalk.red(err));
+      next(err);
+    }
+  }
+
+  refreshToken(req, res, next) {
+    if (!req.body.refreshToken) {
+      res.status(403).json({ message: 'Refresh Token is required!' });
+      return;
+    }
+    try {
+      if (req.body.refreshToken < new Date().getTime()) {
+        res.status(403).json('Refresh token was expired. Please make a new signin request');
+        return;
+      }
+
+      const result = authService.auth(req.body);
+      res.status(200).json({
+        accessToken: result.token,
+        refreshToken: result.refreshToken,
+      });
     } catch (err) {
       console.error(chalk.red(err));
       next(err);

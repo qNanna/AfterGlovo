@@ -37,19 +37,20 @@ class UserController {
 
   async getUser(req, res, next) {
     try {
-      if (!req.query.id) {
+      const id = req.query.id || !req.params.id || req.body.id;
+      if (!id) {
         res.status(400).json('A id is requested');
         return;
       }
-      const user = await userService.findOne(req.query.id, 'id');
+      const user = await userService.findOne(id, 'id');
       if (!user) {
-        res.status(400).json(`User with id: ${req.query.id} not found`);
+        res.status(400).json(`User with id: ${id} not found`);
         return;
       }
 
       delete user.password;
       delete user.token;
-      res.status(200).json(user);
+      res.status(200).json({ user });
     } catch (err) {
       console.error(chalk.red(err));
       next(err);
@@ -71,11 +72,11 @@ class UserController {
         return;
       }
 
-      const result = authService.auth(user);
+      const token = authService.auth(user);
       const refreshToken = await authService.createRefreshToken(user);
-      await userService.updateValue(result.id, 'token', refreshToken.token);
+      await userService.updateValue(token.id, 'token', refreshToken.token);
 
-      res.send({ acessToken: result.token, refreshToken });
+      res.send({ acessToken: token.token, refreshToken });
     } catch (err) {
       console.error(chalk.red(err));
       next(err);
@@ -86,12 +87,12 @@ class UserController {
     try {
       const { token, expiryDate, userId: id } = req.body.refreshToken;
       if (!req.body.refreshToken) {
-        res.status(403).json({ message: 'Refresh Token is required!' });
+        res.status(403).json('Refresh token is required!');
         return;
       }
       const refreshToken = await userService.findOne(id, 'id');
       if (!refreshToken || token !== refreshToken.token) {
-        res.status(403).json({ message: 'Refresh token is not in database!' });
+        res.status(403).json('Refresh token is not in database!');
         return;
       }
       if (expiryDate < new Date().getTime()) {

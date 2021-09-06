@@ -3,14 +3,14 @@ import jwt from 'jsonwebtoken';
 import config from '../../config';
 
 const verifyToken = (req, res, next) => {
-  const token = req.body.token || req.query.token || req.headers['x-access-token'];
+  const bearerHeader = req.headers.authorization;
+  const [, token] = bearerHeader.split(' ');
   if (!token) {
     return res.status(403).send('A token is required');
   }
 
   try {
-    const decoded = jwt.verify(token, config.jwtTokenKey);
-    req.user = decoded;
+    req.user = jwt.verify(token, config.jwtTokenKey);
   } catch (err) {
     return res.status(401).send('Invalid Token');
   }

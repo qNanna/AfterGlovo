@@ -5,10 +5,6 @@ import fs from 'fs/promises';
 const EMAIL_PATTERN = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 const IV = Buffer.from('12345678', 'utf16le'); // 2 bytes per char
 
-function getHash(data, encoding = 'base64', encryption = 'sha256') {
-  return crypto.createHash(encryption).update(JSON.stringify(data)).digest(encoding);
-}
-
 function encryptData(data, key) {
   const cipher = crypto.createCipheriv('aes-256-ctr', Buffer.from(key), IV);
   let encrypted = cipher.update(data);
@@ -37,7 +33,6 @@ function isEmail(mail) {
 }
 
 export default {
-  getHash,
   readFile,
   isEmail,
   encryptData,

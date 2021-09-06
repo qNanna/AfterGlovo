@@ -8,6 +8,13 @@ import userRouter from './routers/userRouter';
 
 const api = express.Router();
 
+api.get('/health', (req, res) => {
+  res.json({
+    uptime: process.uptime(),
+    message: 'OK',
+    timestamp: new Date().toLocaleString(),
+  });
+});
 api.use('/v1/orders', auth, orderRouter);
 api.use('/v1/users', userRouter);
 api.use('/service', serviceRouter);

@@ -14,7 +14,7 @@ class AuthService {
 
   auth(user) {
     const token = jwt.sign(
-      { id: user.id, email: user.email },
+      { id: user.id },
       config.jwtTokenKey,
       {
         expiresIn: config.jwtTokenLife,
